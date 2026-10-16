@@ -1,0 +1,9 @@
+{
+    "id": "local-typelit",
+    "name": "Local TypeLit",
+    "version": "0.1.0",
+    "minAppVersion": "1.7.2",
+    "description": "Practise typing on your own notes: type a note or a selection, with live WPM and accuracy, and pick up where you left off.",
+    "author": "Local TypeLit",
+    "isDesktopOnly": false
+}

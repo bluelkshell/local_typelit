@@ -1,0 +1,58 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Local TypeLit{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'library/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{% url 'library:book_list' %}">Local<span>TypeLit</span></a>
+
+    <div id="pomodoro" class="pomodoro" data-phase="focus"
+         data-today-url="{% url 'library:pomodoro_today' %}"
+         data-complete-url="{% url 'library:pomodoro_complete' %}"
+         data-csrf="{{ csrf_token }}">
+      <button type="button" id="pomo-toggle" class="pomo-btn" title="Start / pause">&#9654;</button>
+      <span id="pomo-phase" class="pomo-phase">Focus</span>
+      <span id="pomo-time" class="pomo-time">25:00</span>
+      <button type="button" id="pomo-skip" class="pomo-btn" title="Skip to the next phase">&#9197;</button>
+      <button type="button" id="pomo-reset" class="pomo-btn" title="Restart this phase">&#8634;</button>
+      <span id="pomo-count" class="pomo-count" title="Focus sessions completed today">&#127813; 0</span>
+      <button type="button" id="pomo-settings-btn" class="pomo-btn" title="Timer settings" aria-expanded="false">&#9881;</button>
+
+      <form id="pomo-settings" class="pomo-settings" hidden>
+        <h3>Pomodoro settings</h3>
+        <label>Focus (min) <input type="number" name="focus" min="1" max="180"></label>
+        <label>Short break (min) <input type="number" name="short" min="1" max="60"></label>
+        <label>Long break (min) <input type="number" name="long" min="1" max="120"></label>
+        <label>Long break after <input type="number" name="longEvery" min="2" max="12"> sessions</label>
+        <label class="check"><input type="checkbox" name="sound"> Play a sound</label>
+        <label class="check"><input type="checkbox" name="notify"> Desktop notification</label>
+        <label class="check"><input type="checkbox" name="autoStart"> Start focus timer when I start typing</label>
+        <p class="muted small" id="pomo-settings-note"></p>
+      </form>
+    </div>
+
+    <nav>
+      <a href="{% url 'library:book_list' %}">Library</a>
+      <a href="{% url 'library:stats' %}">Stats</a>
+      <a href="{% url 'library:book_import' %}">Import</a>
+      <a href="{% url 'library:book_create' %}">New book</a>
+      <a href="{% url 'admin:index' %}">Admin</a>
+    </nav>
+  </header>
+
+  <div id="pomo-toast" class="pomo-toast" role="status" hidden>
+    <span id="pomo-toast-text"></span>
+    <button type="button" id="pomo-toast-action" class="btn small primary"></button>
+    <button type="button" id="pomo-toast-close" class="btn small">Dismiss</button>
+  </div>
+
+  <main class="container{% block main_class %}{% endblock %}">
+    {% block content %}{% endblock %}
+  </main>
+  <script src="{% static 'library/pomodoro.js' %}"></script>
+</body>
+</html>

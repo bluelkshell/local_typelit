@@ -1,0 +1,78 @@
+{% extends "library/base.html" %}
+{% load static %}
+{% block title %}{{ chapter.display_title }} - {{ chapter.book.title }}{% endblock %}
+{% block main_class %} wide{% endblock %}
+{% block content %}
+<script>
+  /* Apply remembered display modes right away to avoid a flash of the wrong layout. */
+  try {
+    if (localStorage.getItem("typelit.focusMode") === "1") document.body.classList.add("focus-mode");
+    if (localStorage.getItem("typelit.handGuide") !== "0") document.body.classList.add("guide-on");
+  } catch (e) { document.body.classList.add("guide-on"); }
+</script>
+<div class="row">
+  <div class="title-block">
+    <p class="muted small"><a href="{{ chapter.book.get_absolute_url }}">&larr; {{ chapter.book.title }}</a></p>
+    <h1>{{ chapter.display_title }}</h1>
+  </div>
+  <div class="top-right">
+  <div class="actions">
+    <span class="font-size-group" role="group" aria-label="Text size">
+      <button class="btn small" data-font="down" type="button" title="Smaller text">A&minus;</button>
+      <button class="btn small" data-font="up" type="button" title="Larger text">A+</button>
+    </span>
+    <button class="btn small" data-guide-toggle type="button" aria-pressed="true" title="Show which finger types the next key">Hands</button>
+    <button class="btn small" data-focus-toggle type="button" title="Distraction-free typing (Ctrl+Shift+F)">Focus mode</button>
+    <a class="btn small" href="{% url 'library:chapter_edit' chapter.pk %}">Edit text</a>
+    <button class="btn small" id="restart" type="button">Restart (Esc)</button>
+  </div>
+  <div id="hand-guide" class="hand-guide" aria-label="Finger guide"></div>
+  </div>
+</div>
+
+<div class="live">
+  <span><strong id="wpm">0</strong> WPM</span>
+  <span><strong id="acc">100</strong>% accuracy</span>
+  <span><strong id="time">0</strong>s</span>
+  <span id="idle-note" class="idle-note" hidden>paused &mdash; type to continue</span>
+  {% if best %}<span class="muted">best: {{ best|floatformat:0 }} WPM</span>{% endif %}
+</div>
+<div class="progress"><div id="bar"></div></div>
+
+<p id="resume-note" class="resume-note" hidden></p>
+<div id="typing" class="typing" lang="{{ chapter.book.language }}"></div>
+<textarea id="capture" class="capture" autocomplete="off" autocapitalize="off"
+          autocorrect="off" spellcheck="false" aria-label="Typing input"></textarea>
+
+<div id="focus-progress" class="focus-progress" aria-live="off"></div>
+
+<div class="focus-tools" role="toolbar" aria-label="Focus mode tools">
+  <button class="btn small" data-font="down" type="button" title="Smaller text">A&minus;</button>
+  <button class="btn small" data-font="up" type="button" title="Larger text">A+</button>
+  <button class="btn small" data-guide-toggle type="button" aria-pressed="true" title="Show which finger types the next key">Hands</button>
+  <button class="btn small" data-stats-toggle type="button" aria-pressed="false" title="Show live WPM, accuracy and time">Stats</button>
+  <button class="btn small" data-focus-toggle type="button" title="Leave focus mode (Ctrl+Shift+F or Esc in fullscreen)">Exit focus</button>
+</div>
+
+<div id="result" class="result" hidden>
+  <h2>Finished!</h2>
+  <p id="result-summary"></p>
+  <div class="actions">
+    <button class="btn primary" id="again" type="button">Type again</button>
+    {% if next_url %}<a class="btn primary" href="{{ next_url }}">Next chapter &rarr;</a>{% endif %}
+    <a class="btn" href="{{ chapter.book.get_absolute_url }}">Back to book</a>
+  </div>
+</div>
+
+{{ typing_text|json_script:"typing-text" }}
+{{ saved|json_script:"saved-progress" }}
+<script>
+  window.TYPELIT = {
+    resultUrl: "{% url 'library:save_result' chapter.pk %}",
+    progressUrl: "{% url 'library:save_progress' chapter.pk %}",
+    csrfToken: "{{ csrf_token }}"
+  };
+</script>
+<script src="{% static 'library/hand-guide.js' %}"></script>
+<script src="{% static 'library/typing.js' %}"></script>
+{% endblock %}

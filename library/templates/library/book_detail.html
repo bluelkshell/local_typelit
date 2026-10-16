@@ -1,0 +1,43 @@
+{% extends "library/base.html" %}
+{% block title %}{{ book.title }} - Local TypeLit{% endblock %}
+{% block content %}
+<div class="row">
+  <div>
+    <h1>{{ book.title }}</h1>
+    <p class="muted">{{ book.author|default:"Unknown author" }} &middot; {{ book.language }}</p>
+    {% if book.description %}<p>{{ book.description }}</p>{% endif %}
+  </div>
+  <div class="actions">
+    <a class="btn" href="{% url 'library:chapter_create' book.pk %}">+ Chapter</a>
+    <a class="btn" href="{% url 'library:book_edit' book.pk %}">Edit book</a>
+    <a class="btn danger" href="{% url 'library:book_delete' book.pk %}">Delete</a>
+  </div>
+</div>
+
+{% if chapters %}
+<table>
+  <thead><tr><th>#</th><th>Title</th><th>Words</th><th>Best WPM</th><th>Runs</th><th></th></tr></thead>
+  <tbody>
+  {% for chapter in chapters %}
+    <tr>
+      <td>{{ chapter.order }}</td>
+      <td>
+        <a href="{{ chapter.get_absolute_url }}">{{ chapter.display_title }}</a>
+        {% if chapter.progress_pos %}<span class="badge">in progress: {% widthratio chapter.progress_pos chapter.progress_total 100 %}%</span>{% endif %}
+      </td>
+      <td>{{ chapter.word_count }}</td>
+      <td>{% if chapter.best_wpm %}{{ chapter.best_wpm|floatformat:0 }}{% else %}&ndash;{% endif %}</td>
+      <td>{{ chapter.attempts }}</td>
+      <td class="actions">
+        <a class="btn small" href="{{ chapter.get_absolute_url }}">{% if chapter.progress_pos %}Continue{% else %}Type{% endif %}</a>
+        <a class="btn small" href="{% url 'library:chapter_edit' chapter.pk %}">Edit</a>
+        <a class="btn small danger" href="{% url 'library:chapter_delete' chapter.pk %}">Delete</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No chapters yet. <a href="{% url 'library:chapter_create' book.pk %}">Add one.</a></p>
+{% endif %}
+{% endblock %}

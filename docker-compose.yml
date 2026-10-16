@@ -1,0 +1,35 @@
+name: local-typelit
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Change this (in a .env file or the shell) if Docker Hub isn't reachable,
+        # e.g. PYTHON_IMAGE=my-mirror.example/python:3.14-slim
+        PYTHON_IMAGE: ${PYTHON_IMAGE:-python:3.14-slim}
+    image: local-typelit:latest
+    restart: unless-stopped
+    # The app has no login, so it is only published on this machine (127.0.0.1).
+    # Don't change this to 0.0.0.0 unless you put authentication in front of it.
+    ports:
+      - "127.0.0.1:${TYPELIT_PORT:-8765}:8000"
+    environment:
+      DJANGO_DEBUG: "0"
+      DJANGO_DATA_DIR: /data
+      # Optional. Left empty, a random key is generated once and kept in the volume.
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-}
+      # Extra hostnames you open the site with (localhost is always allowed).
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-}
+    volumes:
+      - data:/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+
+volumes:
+  # Holds db.sqlite3 (your books, progress and stats). It survives
+  # `docker compose down` and rebuilds; `docker compose down -v` deletes it.
+  data:

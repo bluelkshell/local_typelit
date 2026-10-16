@@ -1,0 +1,31 @@
+{% extends "library/base.html" %}
+{% block content %}
+<h1>Your library</h1>
+
+{% if resume %}
+<a class="card resume-card" href="{{ resume.chapter.get_absolute_url }}">
+  <span class="muted small">{% if resume.resume %}Continue where you left off{% else %}Up next{% endif %}</span>
+  <h2>{{ resume.chapter.book.title }} &mdash; {{ resume.chapter.display_title }}</h2>
+  <p class="muted">
+    {% if resume.resume %}{{ resume.percent }}% typed &middot; {% endif %}{{ resume.chapter.word_count }} words
+    <strong class="go">{% if resume.resume %}Continue{% else %}Start{% endif %} &rarr;</strong>
+  </p>
+</a>
+{% endif %}
+
+{% if books %}
+<div class="grid">
+  {% for book in books %}
+  <a class="card" href="{{ book.get_absolute_url }}">
+    <h2>{{ book.title }}</h2>
+    <p class="muted">{{ book.author|default:"Unknown author" }} &middot; {{ book.language }}</p>
+    {% if book.description %}<p>{{ book.description|truncatewords:25 }}</p>{% endif %}
+    <p class="muted small">{{ book.completed }} / {{ book.chapter_count }} chapters typed</p>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p>No books yet. <a href="{% url 'library:book_import' %}">Import a text or PDF file</a> or
+  <a href="{% url 'library:book_create' %}">create a book</a> and write your own chapters.</p>
+{% endif %}
+{% endblock %}

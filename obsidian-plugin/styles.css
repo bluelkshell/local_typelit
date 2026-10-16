@@ -1,0 +1,221 @@
+/* Local TypeLit. Uses Obsidian's own colour variables, so it follows your theme. */
+
+.typelit-root {
+  --typelit-size: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem 1.2rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+.typelit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.typelit-title {
+  font-size: var(--font-ui-large);
+  font-weight: var(--font-bold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.typelit-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex: none;
+}
+
+.typelit-live {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 1.2rem;
+  color: var(--text-muted);
+}
+
+.typelit-live.typelit-hidden {
+  display: none;
+}
+
+.typelit-stat strong {
+  color: var(--interactive-accent);
+  font-size: var(--font-ui-large);
+}
+
+.typelit-idle {
+  color: var(--interactive-accent);
+  font-size: var(--font-ui-small);
+}
+
+.typelit-best {
+  font-size: var(--font-ui-small);
+}
+
+.typelit-progress {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--background-modifier-border);
+}
+
+.typelit-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 2px;
+  background: var(--interactive-accent);
+  transition: width 0.1s;
+}
+
+.typelit-note {
+  color: var(--interactive-accent);
+  font-size: var(--font-ui-small);
+}
+
+.typelit-root [hidden] {
+  display: none !important;
+}
+
+/* The text. It fits its content for short texts and scrolls for long ones. */
+.typelit-typing {
+  position: relative;
+  flex: 0 1 auto;
+  min-height: 6rem;
+  overflow: hidden;
+  padding: 1.2rem 1.6rem;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  font-family: var(--font-text);
+  font-size: var(--typelit-size);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  color: var(--text-faint);
+  cursor: text;
+  outline: none;
+  user-select: none;
+}
+
+.typelit-typing span {
+  border-radius: 2px;
+  transition:
+    color 90ms ease-out,
+    background-color 90ms ease-out;
+}
+
+.typelit-typing .typelit-correct {
+  color: var(--text-normal);
+}
+
+.typelit-typing .typelit-wrong {
+  color: var(--text-error);
+  background: color-mix(in srgb, var(--text-error) 18%, transparent);
+}
+
+.typelit-empty {
+  color: var(--text-muted);
+  white-space: normal;
+}
+
+/* The caret glides between characters. */
+.typelit-caret {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--interactive-accent);
+  pointer-events: none;
+  will-change: transform;
+  transition: transform 90ms cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+
+.typelit-caret.typelit-no-anim {
+  transition: none;
+}
+
+/* Blinks while you are not actively typing. */
+.typelit-caret.typelit-waiting {
+  animation: typelit-blink 1.1s ease-in-out infinite;
+}
+
+@keyframes typelit-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typelit-typing span,
+  .typelit-caret {
+    transition: none;
+  }
+  .typelit-caret.typelit-waiting {
+    animation: none;
+  }
+}
+
+/* Off-screen but focusable, so keystrokes (and IMEs) reach us. */
+.typelit-capture {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.typelit-result {
+  padding: 0.8rem 1.2rem;
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+}
+
+.typelit-result h3 {
+  margin: 0 0 0.3rem;
+  color: var(--color-green);
+}
+
+/* Stats window */
+.typelit-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.typelit-card {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+}
+
+.typelit-card strong {
+  display: block;
+  font-size: var(--font-ui-larger);
+  color: var(--interactive-accent);
+}
+
+.typelit-card-label {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.typelit-table {
+  width: 100%;
+}
+
+.typelit-table th {
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: var(--font-normal);
+}

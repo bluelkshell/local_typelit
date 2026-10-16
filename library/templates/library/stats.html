@@ -1,0 +1,50 @@
+{% extends "library/base.html" %}
+{% block content %}
+<h1>Stats</h1>
+
+<h2>Typing</h2>
+{% if totals.runs %}
+<div class="grid stats">
+  <div class="card"><h2>{{ totals.runs }}</h2><p class="muted">runs</p></div>
+  <div class="card"><h2>{{ totals.avg_wpm|floatformat:0 }}</h2><p class="muted">average WPM</p></div>
+  <div class="card"><h2>{{ totals.best_wpm|floatformat:0 }}</h2><p class="muted">best WPM</p></div>
+  <div class="card"><h2>{{ totals.avg_acc|floatformat:1 }}%</h2><p class="muted">average accuracy</p></div>
+</div>
+<h3>Recent runs</h3>
+<table>
+  <thead><tr><th>When</th><th>Chapter</th><th>WPM</th><th>Accuracy</th><th>Time</th></tr></thead>
+  <tbody>
+  {% for r in results %}
+    <tr>
+      <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+      <td><a href="{{ r.chapter.get_absolute_url }}">{{ r.chapter }}</a></td>
+      <td>{{ r.wpm|floatformat:0 }}</td>
+      <td>{{ r.accuracy|floatformat:1 }}%</td>
+      <td>{{ r.seconds|floatformat:0 }}s</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>Nothing typed yet. Pick a book from the <a href="{% url 'library:book_list' %}">library</a>.</p>
+{% endif %}
+
+<h2>Pomodoro</h2>
+{% if pomodoro_totals.sessions %}
+<div class="grid stats">
+  <div class="card"><h2>{{ pomodoro_totals.sessions }}</h2><p class="muted">focus sessions</p></div>
+  <div class="card"><h2>{{ pomodoro_totals.minutes }}</h2><p class="muted">focused minutes</p></div>
+</div>
+<h3>Recent days</h3>
+<table>
+  <thead><tr><th>Day</th><th>Sessions</th><th>Focused minutes</th></tr></thead>
+  <tbody>
+  {% for d in pomodoro_days %}
+    <tr><td>{{ d.local_date|date:"Y-m-d (D)" }}</td><td>{{ d.sessions }}</td><td>{{ d.minutes }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No completed focus sessions yet. Press play on the timer in the header to start one.</p>
+{% endif %}
+{% endblock %}

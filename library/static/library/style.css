@@ -1,0 +1,709 @@
+:root {
+    --bg: #16181d;
+    --panel: #1f232b;
+    --border: #323847;
+    --text: #d7dae0;
+    --muted: #8b93a5;
+    --accent: #e0b04c;
+    --good: #8fd18f;
+    --bad: #ff6b6b;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font:
+        16px/1.5 system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+}
+.brand {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+}
+.brand span {
+    color: var(--accent);
+}
+.site-header nav a {
+    margin-left: 1.1rem;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+h1 {
+    margin: 0 0 0.3rem;
+}
+.muted {
+    color: var(--muted);
+}
+.small {
+    font-size: 0.85rem;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+.card {
+    display: block;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    color: var(--text);
+}
+a.card:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+}
+.card h2 {
+    margin: 0 0 0.3rem;
+    font-size: 1.15rem;
+}
+.card p {
+    margin: 0.3rem 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+.btn:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+}
+.btn.small {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.85rem;
+}
+.btn.primary {
+    background: var(--accent);
+    color: #1a1a1a;
+    border-color: var(--accent);
+}
+.btn.danger:hover {
+    border-color: var(--bad);
+    color: var(--bad);
+}
+.btn.danger[type="submit"] {
+    background: var(--bad);
+    color: #1a1a1a;
+    border-color: var(--bad);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th,
+td {
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+}
+th {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.form > div {
+    margin-bottom: 1rem;
+}
+.form label {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--muted);
+}
+.form input[type="text"],
+.form input[type="number"],
+.form textarea,
+.form input[type="file"] {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font: inherit;
+}
+.form textarea {
+    font-family: Georgia, serif;
+}
+.form .helptext {
+    color: var(--muted);
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.2rem;
+}
+.errorlist {
+    color: var(--bad);
+    list-style: none;
+    padding: 0;
+    margin: 0.2rem 0;
+}
+
+/* Typing screen */
+.live {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+.live strong {
+    font-size: 1.4rem;
+    color: var(--accent);
+}
+
+.progress {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+.progress #bar {
+    height: 100%;
+    width: 0;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.1s;
+}
+
+.container.wide {
+    max-width: 1200px;
+}
+
+.typing {
+    --typing-size: 1.9rem;
+    position: relative;
+    /* Fit the text, so a short chapter doesn't leave a big empty box; long
+       chapters grow up to the window height and then scroll. */
+    height: auto;
+    min-height: 7rem;
+    max-height: max(14rem, calc(100vh - var(--page-chrome, 12rem)));
+    overflow: hidden;
+    padding: 1.5rem 2rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: var(--typing-size);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--muted);
+    cursor: text;
+}
+/* Finger guide: two hands and a small keyboard, under the top buttons. */
+.top-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+.top-right .actions {
+    margin-top: 0;
+    justify-content: flex-end;
+}
+.hand-guide {
+    --u: 1.3rem; /* one key unit */
+    --f-pinky: #ec7fae;
+    --f-ring: #f4a261;
+    --f-middle: #efd35f;
+    --f-index: #7fd18b;
+    --f-thumb: #6fb1ea;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    user-select: none;
+}
+body.guide-on .hand-guide {
+    display: flex;
+}
+.hand-guide [data-f="pinky"] {
+    --fc: var(--f-pinky);
+}
+.hand-guide [data-f="ring"] {
+    --fc: var(--f-ring);
+}
+.hand-guide [data-f="middle"] {
+    --fc: var(--f-middle);
+}
+.hand-guide [data-f="index"] {
+    --fc: var(--f-index);
+}
+.hand-guide [data-f="thumb"] {
+    --fc: var(--f-thumb);
+}
+
+.guide-main {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 1.2rem;
+}
+.hand {
+    width: 5.4rem;
+    height: auto;
+    overflow: visible;
+}
+.hand .palm {
+    fill: var(--panel);
+    stroke: var(--border);
+    stroke-width: 2;
+}
+.hand .finger {
+    fill: color-mix(in srgb, var(--fc) 18%, var(--panel));
+    stroke: color-mix(in srgb, var(--fc) 55%, transparent);
+    stroke-width: 2;
+    transition: fill 80ms ease-out;
+}
+.hand .finger.active {
+    fill: var(--fc);
+    stroke: var(--fc);
+    filter: drop-shadow(0 0 5px var(--fc));
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.14rem;
+}
+.key-row {
+    display: flex;
+    gap: 0.14rem;
+    margin-left: calc(var(--offset) * (var(--u) + 0.14rem));
+}
+.key {
+    flex: none;
+    box-sizing: border-box;
+    width: calc(var(--w) * var(--u) + (var(--w) - 1) * 0.14rem);
+    height: calc(var(--u) - 0.1rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--fc, var(--muted)) 14%, var(--panel));
+    color: var(--muted);
+    font-size: 0.68rem;
+    line-height: 1;
+    transition:
+        background-color 80ms ease-out,
+        color 80ms ease-out;
+}
+.key.key-shift {
+    background: var(--panel);
+}
+.key.next {
+    background: var(--fc, var(--accent));
+    border-color: var(--fc, var(--accent));
+    color: #15171c;
+    font-weight: 700;
+    box-shadow: 0 0 8px var(--fc, var(--accent));
+}
+.key.key-shift.next {
+    --fc: var(--accent);
+}
+.guide-caption {
+    min-height: 1.2rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Space taken by everything above the typing box (header, title/guide, stats). */
+body {
+    --page-chrome: 17rem;
+}
+body.guide-on {
+    --page-chrome: 24rem;
+}
+@media (prefers-reduced-motion: reduce) {
+    .hand .finger,
+    .key {
+        transition: none;
+    }
+}
+
+.typing span {
+    border-radius: 2px;
+    transition:
+        color 90ms ease-out,
+        background-color 90ms ease-out;
+}
+.typing .correct {
+    color: var(--text);
+}
+.typing .wrong {
+    color: var(--bad);
+    background: rgba(255, 107, 107, 0.18);
+}
+
+/* The caret glides from character to character. */
+.typing .caret {
+    --caret-ms: 90ms;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    margin-left: -1px;
+    border-radius: 1px;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(224, 176, 76, 0.55);
+    pointer-events: none;
+    will-change: transform;
+    transition: transform var(--caret-ms) cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+.typing .caret.no-anim {
+    transition: none;
+}
+/* Blinks while you're not actively typing, steady while you are. */
+.typing .caret.waiting {
+    animation: caret-blink 1.1s ease-in-out infinite;
+}
+@keyframes caret-blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.15;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .typing span,
+    .typing .caret {
+        transition: none;
+    }
+    .typing .caret.waiting {
+        animation: none;
+    }
+}
+
+.btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.idle-note {
+    color: var(--accent);
+    font-size: 0.9rem;
+    align-self: center;
+}
+
+.font-size-group {
+    display: inline-flex;
+    gap: 0.25rem;
+}
+
+/* Focus mode: only the text, a thin progress bar and a faded timer. */
+.focus-tools,
+.focus-progress {
+    display: none;
+}
+body.focus-mode .row .title-block,
+body.focus-mode .row .actions,
+body.focus-mode:not(.guide-on) .row,
+body.focus-mode .live,
+body.focus-mode .resume-note,
+body.focus-mode .site-header .brand,
+body.focus-mode .site-header nav {
+    display: none;
+}
+body.focus-mode .site-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 15;
+    padding: 0.6rem 1rem;
+    border: 0;
+    background: transparent;
+}
+body.focus-mode .pomodoro {
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+body.focus-mode .pomodoro:hover,
+body.focus-mode .pomodoro:focus-within {
+    opacity: 1;
+}
+body.focus-mode .container.wide {
+    max-width: 1300px;
+    padding-top: 3.2rem;
+}
+body.focus-mode .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 14;
+    height: 6px;
+    margin: 0;
+    border-radius: 0;
+}
+body.focus-mode .focus-progress {
+    position: fixed;
+    left: 1.2rem;
+    bottom: 0.9rem;
+    z-index: 15;
+    display: block;
+    color: var(--text);
+    opacity: 0.75;
+    font-size: 0.95rem;
+    font-variant-numeric: tabular-nums;
+}
+body.focus-mode {
+    --page-chrome: 6.5rem;
+}
+body.focus-mode.guide-on {
+    --page-chrome: 16.5rem;
+}
+body.focus-mode .typing {
+    min-height: 12rem;
+}
+/* The guide stays on top in focus mode, centred, clear of the corner timer. */
+body.focus-mode .row {
+    justify-content: center;
+    margin-bottom: 0.6rem;
+}
+body.focus-mode .row .top-right {
+    align-items: center;
+}
+
+body.focus-mode .focus-tools {
+    position: fixed;
+    right: 1rem;
+    bottom: 0.8rem;
+    z-index: 15;
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+}
+body.focus-mode .focus-tools:hover,
+body.focus-mode .focus-tools:focus-within {
+    opacity: 1;
+}
+body.focus-mode .result {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 30;
+    min-width: 22rem;
+    max-width: 90vw;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.capture {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    left: -9999px;
+}
+
+.result {
+    margin-top: 1.2rem;
+    padding: 1rem 1.4rem;
+    border: 1px solid var(--good);
+    border-radius: 8px;
+    background: var(--panel);
+}
+.result h2 {
+    margin: 0 0 0.3rem;
+    color: var(--good);
+}
+.resume-card {
+    margin-bottom: 1.2rem;
+    border-color: var(--accent);
+}
+.resume-card h2 {
+    margin: 0.1rem 0 0.3rem;
+}
+.resume-card .go {
+    margin-left: 1rem;
+    color: var(--accent);
+}
+
+/* Pomodoro timer */
+.site-header {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+}
+.pomodoro {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg);
+}
+.pomodoro[data-phase="focus"] .pomo-time {
+    color: var(--accent);
+}
+.pomodoro[data-phase="short"] .pomo-time,
+.pomodoro[data-phase="long"] .pomo-time {
+    color: var(--good);
+}
+.pomodoro.running {
+    border-color: var(--accent);
+}
+.pomodoro[data-phase="short"].running,
+.pomodoro[data-phase="long"].running {
+    border-color: var(--good);
+}
+.pomo-phase {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+.pomo-time {
+    font:
+        600 1.15rem/1 ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        monospace;
+    min-width: 3.4rem;
+}
+.pomo-count {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+.pomo-btn {
+    width: 1.8rem;
+    height: 1.8rem;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+.pomo-btn:hover {
+    border-color: var(--border);
+    background: var(--panel);
+}
+.pomo-settings {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 10;
+    width: 20rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.pomo-settings h3 {
+    margin: 0 0 0.6rem;
+    font-size: 1rem;
+}
+.pomo-settings label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.pomo-settings input[type="number"] {
+    width: 4.5rem;
+    padding: 0.25rem 0.4rem;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font: inherit;
+}
+.pomo-settings .check {
+    justify-content: flex-start;
+}
+.pomo-toast {
+    position: fixed;
+    right: 1.2rem;
+    bottom: 1.2rem;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    max-width: 28rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    background: var(--panel);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0 0.5rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--accent);
+    font-size: 0.75rem;
+}
+.resume-note {
+    color: var(--accent);
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+}
+[hidden] {
+    display: none !important;
+}
