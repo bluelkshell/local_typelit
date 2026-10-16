@@ -1,8 +1,0 @@
-{
-  // Prettier-style HTML formatting splits Django {% tags %} across lines,
-  // which breaks the templates. Leave HTML templates as written.
-  "languages": {
-    "HTML": { "format_on_save": "off" },
-    "Django HTML": { "format_on_save": "off" }
-  }
-}
